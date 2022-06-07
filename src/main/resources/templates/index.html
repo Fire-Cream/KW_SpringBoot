@@ -55,11 +55,11 @@
         </div>
     </div>
     <div class="row text-center goods-list">
-        <div th:each="item : rm_items" class="col-md-4 col-xs-4">
-            <a class="thumbnail" href="item/showItem?id=${item.id}">
-                <img class="img-responsive " src="upload/${item.image}"/>
-                <p class="item-name">${item.name}</p>
-                <p class="item-price"><strong>¥${item.shopPrice}</strong></p>
+        <div class="col-md-4 col-xs-4" th:each="item : ${rm_items}">
+            <a class="thumbnail" th:href="@{item/showItem?itemId=}+${item.itemId}">
+                <img class="img-responsive " th:src="@{/upload/}+${item.image}"/>
+                <p class="item-name" th:text="${item.name}"></p>
+                <p class="item-price"><strong th:text="'¥'+${item.shopPrice}"></strong></p>
             </a>
         </div>
     </div>
@@ -71,11 +71,11 @@
         </div>
     </div>
     <div class="row text-center goods-list">
-        <div th:each="item : yh_items" class="col-md-4 col-xs-4">
-            <a class="thumbnail" href="item/showItem?id=${item.id}">
-                <img class="img-responsive " src="upload/${item.image}"/>
-                <p class="item-name">${item.name}</p>
-                <p class="item-price"><strong>¥${item.shopPrice}</strong></p>
+        <div class="col-md-4 col-xs-4" th:each="item : ${yh_items}">
+            <a class="thumbnail" th:href="@{item/showItem?itemId=}+${item.itemId}">
+                <img class="img-responsive " th:src="@{/upload/}+${item.image}"/>
+                <p class="item-name" th:text="${item.name}"></p>
+                <p class="item-price"><strong th:text="'¥'+${item.shopPrice}"></strong></p>
             </a>
         </div>
     </div>

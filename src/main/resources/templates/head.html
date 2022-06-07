@@ -17,12 +17,12 @@
     <script th:src="@{/js/index.js}"></script>
     <script>
         $(document).ready(function () {
-            $.post("/cat/list",
+            $.post("/category/list",
                 function (data) {
                     var $ul = $(".wz-nav");
                     var str = "";
                     for (var i in data) {
-                        str += '<li><a href="${pageContext.request.contextPath}/item/queryPage?cid=' + data[i].cid + '&page=1">' + data[i].name + '</a></li>'
+                        str += '<li><a href="/item/queryPage?cid=' + data[i].itemCategoryId + '&page=1">' + data[i].menuName + '</a></li>'
                     }
                     $ul.html(str);
                 });
@@ -33,7 +33,7 @@
                 console.log(keyword + ":" + keyword.length);
                 //有关键字才请求
                 if (keyword.length > 0) {
-                    location.href = "${pageContext.request.contextPath}/item/search?name=" + keyword + "&page=1";
+                    location.href = "/item/search?name=" + keyword + "&page=1";
                 }
             });
 
@@ -80,28 +80,28 @@
                 </div>
                 <div class="col-md-4 col-xs-6" style="margin-top: 40px;">
                     <ul class="list-inline text-right ">
-                        <c:if test="${user == null}">
-                            <li>
-                                <a class="font1" href="user/login"><span
-                                        class="glyphicon glyphicon-user"
-                                        aria-hidden="true"></span>&nbsp;登录</a>
-                            </li>
-                        </c:if>
-                        <c:if test="${user != null}">
-                            <li class="dropdown">
-                                <span data-toggle="dropdown" class="font1" href="javascript:void(0);"> 欢迎您：${user.name} <span
-                                        class="caret"></span></span>
-                                <ul class="dropdown-menu">
-                                    <li><a href="order/showOrder?uid=${user.uid}"><span class="glyphicon glyphicon-list-alt"></span> 订单管理</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="user/exit"><span
-                                            class="glyphicon glyphicon-log-out"></span> 退出登录</a></li>
-                                </ul>
-                            </li>
-                        </c:if>
+                        <li th:if="${user} == null">
+                            <a class="font1" href="user/login"><span
+                                    aria-hidden="true"
+                                    class="glyphicon glyphicon-user"></span>&nbsp;登录</a>
+                        </li>
+                        <li class="dropdown" th:if="${user} != null">
+                            <span class="font1" data-toggle="dropdown"
+                                  href="javascript:void(0);"> 欢迎您：${user.name} <span
+                                    class="caret"></span></span>
+                            <ul class="dropdown-menu">
+                                <li><a href="order/showOrder?uid=${user.uid}"><span
+                                        class="glyphicon glyphicon-list-alt"></span> 订单管理</a></li>
+                                <li class="divider" role="separator"></li>
+                                <li><a href="user/exit"><span
+                                        class="glyphicon glyphicon-log-out"></span> 退出登录</a></li>
+                            </ul>
+                        </li>
                         <li>
-                            <a class="font1" href="cart/cart"><span
-                                    class="glyphicon glyphicon-shopping-cart"></span>&nbsp;购物车</a>
+                            <a class="font1" href="cart/cart">
+                                <span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;
+                                购物车
+                            </a>
                         </li>
                     </ul>
                 </div>
