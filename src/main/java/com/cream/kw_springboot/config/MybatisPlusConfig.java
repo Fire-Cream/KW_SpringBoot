@@ -5,9 +5,8 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@MapperScan("com.cream.kw_springboot.config")
+@MapperScan("com.cream.kw_springboot.mapper")
 public class MybatisPlusConfig {
-
 
     public PaginationInnerInterceptor paginationInnerInterceptor() {
         PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor();
