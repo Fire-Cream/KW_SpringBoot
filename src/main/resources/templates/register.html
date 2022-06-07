@@ -1,0 +1,67 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <div th:replace="head :: head1"></div>
+    <title>酷玩周边商城-商品列表</title>
+</head>
+<body>
+<!-- 头部 -->
+<div th:replace="head :: head2"></div>
+<div class="container-fluid rg-container">
+    <div class="rg-layout ">
+        <div class="rg-left col-md-3 pt20">
+            <p>新用户注册</p>
+            <p>USER REGISTER</p>
+        </div>
+        <div class="col-md-6 mt80">
+            <form id="registerForm" th:action="@{/user/register}" class="form-horizontal"
+                  method="post">
+                <div class="form-group">
+                    <label for="username" class="col-sm-2 control-label">用户名</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="username" class="form-control" id="username" placeholder="请输入用户名" required>
+                        <div id="rs" style="color: red;display: none;" class="col-sm-10">用户名已被使用</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="col-sm-2 control-label">密码</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-10">
+                        <input type="email" class="form-control" name="email" id="email" placeholder="请输入邮箱" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="name" class="col-sm-2 control-label">姓名</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="name" id="name" placeholder="请输入姓名" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="tel" class="col-sm-2 control-label">手机号</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="tel" id="tel" placeholder="请输入手机号" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button id="register" type="submit" class="btn btn-default">注册</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-3 rg-right pt20">
+            <p class="pull-right">已有账号?
+                <a th:href="@{/login}">立即登录</a>
+            </p>
+        </div>
+
+    </div>
+</div>
+
+<div th:replace="foot :: foot"></div>
+</body>
+</html>

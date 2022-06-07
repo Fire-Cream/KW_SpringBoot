@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <div th:replace="head :: head1"></div>
+    <title>酷玩周边商城-商品列表</title>
+</head>
+<body>
+<!-- 头部 -->
+<div th:replace="head :: head1"></div>
+<div th:replace="head :: head2"></div>
+<!--主区域-->
+<div class="container" style="margin-top:25px;">
+    <div class="panel panel-success">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            <h3 class="panel-title">我的购物车</h3>
+        </div>
+        <!-- Table -->
+        <table class="table table-condensed text-center table-responsive">
+            <thead th:if="${cart!=null}">
+                <tr>
+                    <th class="text-center">图片</th>
+                    <th class="text-center">商品</th>
+                    <th class="text-center">单价(元)</th>
+                    <th class="text-center">数量</th>
+                    <th class="text-center">小计</th>
+                    <th class="text-center">操作</th>
+                </tr>
+            </thead>
+            <tbody th:if="${cart!=null}">
+                <th:each items="${cart.cartItems}" var="entry">
+                    <tr>
+                        <td><img th:src='@{/upload/${entry.value.item.image}}'
+                                 class='buyimg'/></td>
+                        <td>${entry.value.item.name}</td>
+                        <td class='cart-item-price'>¥${entry.value.item.shopPrice}</td>
+                        <td style='vertical-align: middle'>
+                            <div class='input-group col-md-2' style='margin:  0 auto;'>
+                                <input readonly name='count' type='text' class='form-control text-center'
+                                       value='${entry.value.count}'>
+                            </div>
+                        </td>
+                        <td class='cart-item-price'>¥${entry.value.subtotal}</td>
+                        <td>
+                            <a href='${pageContext.request.contextPath}/cart/delete?id=${entry.value.item.id}'>删除</a>
+                        </td>
+                    </tr>
+                </th:each>
+
+            </tbody>
+            <tbody th:if="${cart==null}">
+                <div class='jumbotron'><p class='text-center'>您的购物车中还没有商品,
+                    <a th:href='@{/}' target='_Self'> 去逛逛吧</a></p>
+                </div>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${cart!=null}" class="text-right">
+            商品金额：<span class="cart-money">¥${cart.total}</span>
+    </div>
+    <div th:if="${cart!=null}" class="text-right"
+         style="border-bottom: 1px solid #DDDDDD;border-top: 1px solid #DDDDDD; margin-top: 10px;padding:5px 0 5px 0;">
+        <a class="btn  btn-danger btn-lg" th:href="@{/cart/clear}"><span
+                class="glyphicon glyphicon-trash"
+                aria-hidden="true"></span>清空购物车</a>
+        <a class="btn  btn-success btn-lg" th:href="@{/order/submitOrder}" role="button">提交订单</a>
+    </div>
+</div>
+<!--底部-->
+<div th:replace="foot :: foot"></div>
+</body>
+
+</html>
