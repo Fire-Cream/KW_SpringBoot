@@ -15,7 +15,7 @@
             <ol class="breadcrumb">
                 <li><a th:href="@{/}">首页</a></li>
                 <li th:each="item : ${session.menu}">
-                    <li class="active">[[${item.menuName}]]</li>
+                    <a class="active">[[${item.menuName}]]</a>
                 </li>
             </ol>
         </div>
