@@ -1,7 +1,7 @@
 $(document).ready(function () {
     //定义标记
     var isOk = false;
-    $("input#rusername").blur(function () {
+    $("input#username").blur(function () {
         var username = $(this).val();
         $.post("/user/checkUser",
             {username: username},

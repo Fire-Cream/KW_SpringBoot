@@ -16,7 +16,7 @@ import java.util.Date;
 @TableName("item")
 public class Item {
     @TableId("id")
-    private String itemId;
+    private Integer itemId;
     private String name;
     private Double marketPrice;
     private Double shopPrice;

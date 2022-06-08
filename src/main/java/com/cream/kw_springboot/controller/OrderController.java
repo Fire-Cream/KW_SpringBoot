@@ -5,10 +5,10 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
-import com.cream.kw_springboot.bean.Order;
-import com.cream.kw_springboot.bean.User;
+import com.cream.kw_springboot.bean.*;
 import com.cream.kw_springboot.service.OrderService;
 import com.cream.kw_springboot.util.AlipayConfig;
+import com.cream.kw_springboot.util.UuidUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,20 +16,64 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/order")
 public class OrderController {
-
     @Autowired
     private OrderService orderService;
 
-    @RequestMapping("/submitOrder")
-    public String submitOrder(){
+    //提交订单
+    @RequestMapping("submitOrder")
+    public String submitOrder(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        //判断是否登录账号
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            request.setAttribute("error", "请您登录后再提交订单");
+            return "login";
+        }
+        Cart cart = (Cart) request.getSession().getAttribute("cart");
+        //创建订单
+        Order order = new Order();
+        order.setOrderId(UuidUtil.getUuid());//订单编号
+        order.setOrderTime(new Date());//下单时间
+        order.setTotal(cart.getTotal());//总计
+        order.setState(1);//订单状态  未付款
+        order.setUser(user);//订单所属用户
+        //遍历购物项
+        for (Map.Entry<Integer, CartItem> entry : cart.getCartItems().entrySet()) {
+            //创建购物项
+            OrderItem orderItem = new OrderItem();
+            orderItem.setOrderItemId(UuidUtil.getUuid());//购物项编号
+            orderItem.setOrder(order);//购物项所属订单
+            orderItem.setCount(entry.getValue().getCount());//购买数量
+            orderItem.setSubtotal(entry.getValue().getSubtotal());//小计
+            orderItem.setItem(entry.getValue().getItem());//设置购物相对应的商品信息
+            order.getOrderItems().add(orderItem);
+        }
+        orderService.submitOrder(order);
+        //清空购物车
+        cart.clearCart();
+        request.getSession().removeAttribute("cart");
+        //将订单保存到session域
+        request.setAttribute("order", order);
         return "order";
+    }
+
+    //未付款订单 修改信息 付款
+    @RequestMapping("toPay")
+    public String toPay(HttpServletRequest request, HttpServletResponse response){
+        //获取相关信息
+        String oid= request.getParameter("oid");
+        String address= request.getParameter("address");
+        String name= request.getParameter("name");
+        String telephone= request.getParameter("telephone");
+        request.setAttribute("oid",oid);
+        request.setAttribute("address",address);
+        request.setAttribute("name",name);
+        request.setAttribute("telephone",telephone);
+        return "pay";
     }
 
     //提交订单
@@ -46,7 +90,7 @@ public class OrderController {
         //商户订单号，商户网站订单系统中唯一订单号，必填
         String out_trade_no = request.getParameter("WIDout_trade_no");
         //获取订单信息 该order里面没有用户的收货信息 下面可以直接赋值使用
-        Order order = new Order();//orderService.selectByOid(out_trade_no);
+        Order order = orderService.selectByOid(out_trade_no);
         //判断是否是第一次创建订单
         if(request.getParameter("pay") == null){
             //更新用户信息
@@ -56,7 +100,7 @@ public class OrderController {
             order.setAddress(address);
             order.setName(name);
             order.setTelephone(telephone);
-            //orderService.addOrderMsg(order);
+            orderService.addOrderMsg(order);
         }
 
         //付款金额，必填
@@ -111,7 +155,7 @@ public class OrderController {
             Order order = new Order();
             order.setOrderId(out_trade_no);
             order.setState(2);
-            //orderService.changeState(order);
+            orderService.changeState(order);
 
             request.setAttribute("out_trade_no",out_trade_no);
             request.setAttribute("trade_no",trade_no);
@@ -120,8 +164,13 @@ public class OrderController {
         return "pay-result";
     }
 
-    @RequestMapping("/showOrder")
-    public String showOrder(){
+    //查询所有的订单
+    @RequestMapping("showOrder")
+    public String showOrder(HttpServletRequest request){
+        //获取用户id
+        int uid = Integer.parseInt(request.getParameter("uid"));
+        List<Order> orders = orderService.showOrders(uid);
+        request.getSession().setAttribute("orders",orders);
         return "order-list";
     }
 }

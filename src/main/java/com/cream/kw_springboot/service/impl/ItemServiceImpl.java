@@ -22,4 +22,11 @@ public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements It
         queryWrapper.last("limit 6");
         return baseMapper.selectList(queryWrapper);
     }
+
+    @Override
+    public Item showItem(int id) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("id",id);
+        return baseMapper.selectOne(queryWrapper);
+    }
 }

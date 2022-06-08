@@ -18,11 +18,11 @@
                 </div>
                 <div class="panel-body">
                     <form class="form-horizontal" th:action="@{/user/login}" method="post">
-                        <div class="alert alert-danger alert-dismissible" role="alert" th:if="${error} != null">
+                        <div class="alert alert-danger alert-dismissible" role="alert" th:if="${msg} != null">
                             <button aria-label="Close" class="close" data-dismiss="alert" type="button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            ${error}
+                            [[${msg}]]
                         </div>
                         <div class="form-group">
                             <label for="username" class="col-sm-3 control-label">用户名:</label>

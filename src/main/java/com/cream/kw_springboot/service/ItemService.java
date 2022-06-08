@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ItemService extends IService<Item> {
     List<Item> selectItemsByFlag(int i);
+
+    Item showItem(int id);
 }

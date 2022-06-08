@@ -27,28 +27,25 @@
                     <th class="text-center">操作</th>
                 </tr>
             </thead>
-            <tbody th:if="${cart!=null}">
-                <th:each items="${cart.cartItems}" var="entry">
-                    <tr>
-                        <td><img th:src='@{/upload/${entry.value.item.image}}'
-                                 class='buyimg'/></td>
-                        <td>${entry.value.item.name}</td>
-                        <td class='cart-item-price'>¥${entry.value.item.shopPrice}</td>
-                        <td style='vertical-align: middle'>
-                            <div class='input-group col-md-2' style='margin:  0 auto;'>
-                                <input readonly name='count' type='text' class='form-control text-center'
-                                       value='${entry.value.count}'>
-                            </div>
-                        </td>
-                        <td class='cart-item-price'>¥${entry.value.subtotal}</td>
-                        <td>
-                            <a href='${pageContext.request.contextPath}/cart/delete?id=${entry.value.item.id}'>删除</a>
-                        </td>
-                    </tr>
-                </th:each>
-
+            <tbody th:if="${session.cart}!=null">
+                <tr th:each="entry : ${session.cart.cartItems}">
+                    <td><img th:src='@{/upload/}+${entry.value.item.image}'
+                             class='buyimg'/></td>
+                    <td>[[${entry.value.item.name}]]</td>
+                    <td class='cart-item-price'>¥[[${entry.value.item.shopPrice}]]</td>
+                    <td style='vertical-align: middle'>
+                        <div class='input-group col-md-2' style='margin:  0 auto;'>
+                            <input readonly name='count' type='text' class='form-control text-center'
+                                   th:value="${entry.value.count}">
+                        </div>
+                    </td>
+                    <td class='cart-item-price'>¥[[${entry.value.subtotal}]]</td>
+                    <td>
+                        <a th:href='@{/cart/delete?id=}+${entry.value.item.itemId}'>删除</a>
+                    </td>
+                </tr>
             </tbody>
-            <tbody th:if="${cart==null}">
+            <tbody th:if="${session.cart}==null">
                 <div class='jumbotron'><p class='text-center'>您的购物车中还没有商品,
                     <a th:href='@{/}' target='_Self'> 去逛逛吧</a></p>
                 </div>
@@ -56,10 +53,10 @@
         </table>
     </div>
 
-    <div th:if="${cart!=null}" class="text-right">
-            商品金额：<span class="cart-money">¥${cart.total}</span>
+    <div th:if="${session.cart}!=null" class="text-right">
+            商品金额：<span class="cart-money">¥[[${session.cart.total}]]</span>
     </div>
-    <div th:if="${cart!=null}" class="text-right"
+    <div th:if="${session.cart}!=null" class="text-right"
          style="border-bottom: 1px solid #DDDDDD;border-top: 1px solid #DDDDDD; margin-top: 10px;padding:5px 0 5px 0;">
         <a class="btn  btn-danger btn-lg" th:href="@{/cart/clear}"><span
                 class="glyphicon glyphicon-trash"

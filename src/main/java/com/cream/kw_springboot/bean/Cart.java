@@ -13,16 +13,17 @@ import java.util.Map;
 @NoArgsConstructor
 @ToString
 public class Cart {
-    private Map<String,CartItem> cartItems = new HashMap<>();
-    private Double total;
+    private Map<Integer,CartItem> cartItems = new HashMap<>();
+    private Double total=0.0;
 
     //添加购物车
     public void addCartItem(CartItem cartItem){
         //获取商品id
-        String itemId = cartItem.getItem().getItemId();
+        Integer itemId = cartItem.getItem().getItemId();
         if (!cartItems.containsKey(itemId)){
             //如果不存在，直接添加
             cartItems.put(itemId,cartItem);
+
         }else {
             //如果存在，则更新商品数量
             CartItem cartItem_old = cartItems.get(itemId);
@@ -30,10 +31,10 @@ public class Cart {
             cartItem_old.setCount(cartItem.getCount() + cartItem_old.getCount());
         }
         //更新总计
-        total += cartItem.getSubtotal();
+        total = total + cartItem.getSubtotal();
     }
 
-    public void deleteCartItem(String cartItemId){
+    public void deleteCartItem(Integer cartItemId){
         CartItem remove = cartItems.remove(cartItemId);
         total -= remove.getSubtotal();
     }
@@ -42,4 +43,5 @@ public class Cart {
         cartItems.clear();
         total = 0.0;
     }
+
 }

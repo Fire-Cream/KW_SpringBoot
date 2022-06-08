@@ -22,18 +22,18 @@
                 </thead>
                 <tbody>
                     <tr th:each="entry : order.orderItems">
-                        <td class="col-md-2"><img src="${pageContext.request.contextPath}/upload/${entry.item.image}"
+                        <td class="col-md-2"><img th:src="@{/upload/}+${entry.item.image}"
                                                   class="buyimg"/></td>
-                        <td class="col-md-5">${entry.item.name}</td>
-                        <td class="col-md-2">¥${entry.item.shopPrice}</td>
-                        <td class="col-md-1">${entry.count}</td>
-                        <td class="col-md-2">¥${entry.subtotal}</td>
+                        <td class="col-md-5">[[${entry.item.name}]]</td>
+                        <td class="col-md-2">[[¥${entry.item.shopPrice}]]</td>
+                        <td class="col-md-1">[[${entry.count}]]</td>
+                        <td class="col-md-2">[[¥${entry.subtotal}]]</td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div class="text-right list-group-item" style="margin-bottom: 10px;">
-            商品金额：<span class="xiangq_font3">¥${order.total}元</span>
+            商品金额：<span class="xiangq_font3">¥$[[{order.total}]]元</span>
         </div>
         <form accept-charset="UTF-8" onsubmit="document.charset='UTF-8'" class="form-horizontal list-group-item"
               th:action="@{/order/pay}" method="post">

@@ -80,25 +80,25 @@
                 </div>
                 <div class="col-md-4 col-xs-6" style="margin-top: 40px;">
                     <ul class="list-inline text-right ">
-                        <li th:if="${user} == null">
-                            <a class="font1" href="user/login"><span
+                        <li th:if="${session.user} == null">
+                            <a class="font1" th:href="@{/user/login}"><span
                                     aria-hidden="true"
                                     class="glyphicon glyphicon-user"></span>&nbsp;登录</a>
                         </li>
-                        <li class="dropdown" th:if="${user} != null">
+                        <li class="dropdown" th:if="${session.user} != null">
                             <span class="font1" data-toggle="dropdown"
-                                  href="javascript:void(0);"> 欢迎您：${user.name} <span
+                                  href="javascript:void(0);"> 欢迎您：[[${session.user.nickName}]] <span
                                     class="caret"></span></span>
                             <ul class="dropdown-menu">
-                                <li><a href="order/showOrder?uid=${user.uid}"><span
+                                <li><a th:href="@{/order/showOrder?uid=}+${session.user.userId}"><span
                                         class="glyphicon glyphicon-list-alt"></span> 订单管理</a></li>
                                 <li class="divider" role="separator"></li>
-                                <li><a href="user/exit"><span
+                                <li><a th:href="@{/user/exit}"><span
                                         class="glyphicon glyphicon-log-out"></span> 退出登录</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a class="font1" href="cart/cart">
+                            <a class="font1" th:href="@{/cart/cart}">
                                 <span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;
                                 购物车
                             </a>
