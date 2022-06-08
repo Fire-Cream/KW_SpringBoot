@@ -28,7 +28,6 @@ public class ItemController {
         IPage<Item> pages = itemService.getItemsByOpr(page1,cid);
         model.addAttribute("cid", cid);
         model.addAttribute("pages",pages);
-        System.out.println(request.getSession().getAttribute("menu"));
         return "category";
     }
 

@@ -33,10 +33,10 @@ public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements It
     }
 
     @Override
-    public IPage<Item> getItemsByOpr(Page<Item> page1, int cid) {
+    public IPage<Item> getItemsByOpr(Page<Item> p, int cid) {
         QueryWrapper<Item> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("cid",cid);
-        Page<Item> page = baseMapper.selectPage(page1,queryWrapper);
+        queryWrapper.eq("cid", cid);
+        Page<Item> page = baseMapper.selectPage(p, queryWrapper);
         return page;
     }
 }

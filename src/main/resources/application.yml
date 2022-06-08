@@ -14,7 +14,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/kw?characterEncoding=utf-8&serverTimezone=GMT%2B8&userSSL=false
     username: root
-    password: root
+    password:
     #mybatis-plus内置连接池
     hikari:
       connection-test-query: SELECT 1
