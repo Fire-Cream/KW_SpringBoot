@@ -19,8 +19,8 @@ public class ItemCategoryController {
 
     @RequestMapping("/list")
     public List<ItemCategory> list(HttpServletRequest request) {
-        List<ItemCategory> list = itemCategoryService.list();
-        request.getSession().setAttribute("list",list);
+        List<ItemCategory> list = itemCategoryService.getMenu();
+        request.getSession().setAttribute("menu",list);
         return list;
     }
 }
