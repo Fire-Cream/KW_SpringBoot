@@ -6,6 +6,7 @@ import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.cream.kw_springboot.bean.*;
+import com.cream.kw_springboot.service.OrderItemService;
 import com.cream.kw_springboot.service.OrderService;
 import com.cream.kw_springboot.util.AlipayConfig;
 import com.cream.kw_springboot.util.UuidUtil;
@@ -23,6 +24,8 @@ import java.util.*;
 public class OrderController {
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private OrderItemService orderItemService;
 
     //提交订单
     @RequestMapping("submitOrder")

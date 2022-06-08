@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cream.kw_springboot.mapper.OrderMapper">
+
+    <resultMap id="order" type="com.cream.kw_springboot.bean.Order">
+        <id column="oid" property="orderId"></id>
+        <result column="orderTime" property="orderTime"></result>
+        <result column="total" property="total"></result>
+        <result column="state" property="state"></result>
+        <result column="address" property="address"></result>
+        <result column="name" property="name"></result>
+        <result column="telephone" property="telephone"></result>
+        <collection property="orderItems" column="oid" ofType="orderItem" select="getOrderItem"></collection>
+    </resultMap>
+    <resultMap id="orderItem" type="com.cream.kw_springboot.bean.OrderItem">
+        <id column="itemid" property="orderItemId"></id>
+        <result column="count" property="count"></result>
+        <result column="subtotal" property="subtotal"></result>
+        <collection property="item" column="id" ofType="item" select="getItem"></collection>
+    </resultMap>
+    <resultMap id="item" type="com.cream.kw_springboot.bean.Item">
+        <id column="id" property="itemId"></id>
+        <result column="name" property="name"></result>
+        <result column="market_price" property="marketPrice"></result>
+        <result column="shop_price" property="shopPrice"></result>
+        <result column="num" property="num"></result>
+        <result column="image" property="image"></result>
+        <result column="idesc" property="idesc"></result>
+        <result column="iflag" property="iflag"></result>
+        <result column="status" property="status"></result>
+        <result column="created" property="created"></result>
+        <result column="updated" property="updated"></result>
+    </resultMap>
+    <select id="getOrderItem" resultMap="orderItem">
+        select * from order_item where oid = #{oid}
+    </select>
+    <select id="getItem" resultMap="item">
+        select * from item where id = #{id}
+    </select>
+
+</mapper>

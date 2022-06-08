@@ -1,6 +1,8 @@
 package com.cream.kw_springboot.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cream.kw_springboot.bean.Item;
 import com.cream.kw_springboot.mapper.ItemMapper;
@@ -10,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service("/itemServiceImpl")
+@Service("itemServiceImpl")
 @Transactional
 public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements ItemService {
     @Override
@@ -28,5 +30,13 @@ public class ItemServiceImpl extends ServiceImpl<ItemMapper, Item> implements It
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.eq("id",id);
         return baseMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public IPage<Item> getItemsByOpr(Page<Item> page1, int cid) {
+        QueryWrapper<Item> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("cid",cid);
+        Page<Item> page = baseMapper.selectPage(page1,queryWrapper);
+        return page;
     }
 }

@@ -8,7 +8,7 @@
 <div th:replace="head :: head2"></div>
 <div class="container" style="margin-top: 20px;">
     <div class="list-group">
-        <h3 class="list-group-item-heading">生成订单成功,订单号：${order.orderId}</h3>
+        <h3 class="list-group-item-heading">生成订单成功,订单号：[[${order.orderId}]]</h3>
         <div class="list-group-item">
             <table class="table table-condensed">
                 <thead>
@@ -21,13 +21,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="entry : order.orderItems">
-                        <td class="col-md-2"><img th:src="@{/upload/}+${entry.item.image}"
-                                                  class="buyimg"/></td>
-                        <td class="col-md-5">[[${entry.item.name}]]</td>
-                        <td class="col-md-2">[[¥${entry.item.shopPrice}]]</td>
-                        <td class="col-md-1">[[${entry.count}]]</td>
-                        <td class="col-md-2">[[¥${entry.subtotal}]]</td>
+                    <tr th:each="entry : ${session.order.orderItems}">
+                        [[${entry}]]
                     </tr>
                 </tbody>
             </table>

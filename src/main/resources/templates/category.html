@@ -14,18 +14,18 @@
         <div class="col-md-12">
             <ol class="breadcrumb">
                 <li><a th:href="@{/}">首页</a></li>
-                <li th:each="item : items">
-                    <li th:if="${item.cid == cid}" class="active">${item.name}</li>
+                <li th:each="item : ${session.list}">
+                    <li th:if="${item.cid} == ${cid}" class="active">[[${item.name}]]</li>
                 </li>
             </ol>
         </div>
         <div class="col-md-12">
             <div class="row  text-center cat-item-list">
-                <div th:each="item : items" class="col-md-4">
-                    <a th:href="@{/item/showItem?id=${item.id}}" class="thumbnail"> <img
-                            class="img-responsive" th:src="@{/upload/${item.image}}"/>
-                        <p class="item-name">${item.name}</p>
-                        <p class="item-price"><strong>¥${item.shopPrice}</strong></p>
+                <div th:each="item : ${session.items}" class="col-md-4">
+                    <a th:href="@{/item/showItem?id=}+${item.id}" class="thumbnail"> <img
+                            class="img-responsive" th:src="@{/upload/}+${item.image}"/>
+                        <p class="item-name">[[${item.name}]]</p>
+                        <p class="item-price"><strong>¥[[${item.shopPrice}]]</strong></p>
                     </a>
                 </div>
             </div>
@@ -35,7 +35,6 @@
                         <ul class="pagination">
                             <li th:if="${pageInfo.prePage == 0}"><a th:href="@{/item/queryPage?cid=${cid}&page=${pageInfo.navigateFirstPage}}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
                             <li th:if="${pageInfo.prePage != 0}"><a th:href="@{/item/queryPage?cid=${cid}&page=${pageInfo.prePage}}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-
                             <li th:each="i : items" th:classappend="${pageInfo.pageNum == i}? 'active'">
                                 <a th:href="@{/item/queryPage?cid=${cid}&page=${i}}">${i}</a>
                             </li>

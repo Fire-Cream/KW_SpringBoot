@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +18,9 @@ public class ItemCategoryController {
     private ItemCategoryService itemCategoryService;
 
     @RequestMapping("/list")
-    public List<ItemCategory> list() {
+    public List<ItemCategory> list(HttpServletRequest request) {
         List<ItemCategory> list = itemCategoryService.list();
+        request.getSession().setAttribute("list",list);
         return list;
     }
 }
